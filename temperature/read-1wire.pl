@@ -2,12 +2,12 @@
 
 use strict;
 use warnings;
-#use DateTime;
+use DateTime;
  
 #&check_modules;
 &get_device_IDs;
 
-#my $dt = DateTime->now;
+my $dt = DateTime->now;
 my $in_correction = 0;
 my $out_correction = 0;
 my $count = 0; 
@@ -34,16 +34,23 @@ if ($temp_readings[1] ne 'U') {
 } 
 
 #update the database 
-`/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[1]:$temp_readings[0]`;
-print "Temp 0 out = $temp_readings[0] Temp 1 in = $temp_readings[1]\n";   
+if ($ARGV[0]==1) {
+  #running rrdtool if first paramter is 1
+  `/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[1]:$temp_readings[0]`;
+  print "running rrdtool \n"
+}
+#print ($ARGV[0]);
+print "Outside temperature = $temp_readings[0]\n";
+print "Inside temperature = $temp_readings[1]\n";   
+print $dt;
+print "\n";
 
 #create index.html
  open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
  print $fh "<html><body>\n";
  print $fh "Latest measurement: ";
- #print $fh localtime();
- #print $fh $dt;
- print $fh "Temp 0 out = $temp_readings[0] Temp 1 in = $temp_readings[1]\n";
+ print $fh $dt;
+ print $fh "<br>Temp 0 out = $temp_readings[0] Temp 1 in = $temp_readings[1]\n";
  print $fh "<p><img src=\"./mhour.png\">\n";
  print $fh "<img src=\"./mday.png\">\n";
  print $fh "<br><img src=\"./mweek.png\">\n";
