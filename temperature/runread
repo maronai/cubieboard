@@ -1,2 +1,2 @@
-./read-1wire.pl
+./read-1wire.pl 1
 ./graphdata.sh
