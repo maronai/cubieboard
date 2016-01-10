@@ -48,9 +48,9 @@ print "\n";
 #create index.html
  open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
  print $fh "<html><body>\n";
- print $fh "Latest measurement: ";
+ print $fh "Latest measurement at ";
  print $fh $dt;
- print $fh "<br>Temp 0 out = $temp_readings[0] Temp 1 in = $temp_readings[1]\n";
+ print $fh "<br>Outside temperature = $temp_readings[0] <br>Inside temperature = $temp_readings[1]\n";
  print $fh "<p><img src=\"./mhour.png\">\n";
  print $fh "<img src=\"./mday.png\">\n";
  print $fh "<br><img src=\"./mweek.png\">\n";
