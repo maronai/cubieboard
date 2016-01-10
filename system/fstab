@@ -1,0 +1,8 @@
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+/swap/swapfile swap swap defaults 0 0
+tmpfs    /tmp        tmpfs    defaults    0 0
+tmpfs    /var/tmp    tmpfs    defaults    0 0
+/dev/sda1	/mnt/1	ext4	defaults,noauto	0	0
+/dev/sda2	/mnt/2	auto	defaults	0	0
+/dev/nanda	/mnt/a	auto	defaults	0	0
+/dev/nandb	/mnt/b	auto	defaults	0	0
