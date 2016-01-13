@@ -1,5 +1,5 @@
 # cubieboard
-Here you can find some files that are used on my cubieboard to make Dallas 1-wire DS18B20 temprature sensors work.
+Here you can find some files that are used on my cubieboard to make Dallas 1-wire DS18B20 temperature sensors work.
 
 The boot folder contains script.fex files both for CubieTruck and CubieBoard 2 which are based on the files in the images at http://dl.cubieboard.org/model/cubietruck/Image/Cubieez/cubieez-hdmi/. Also there is uEnv.txt and the uImage kernel that work on my systems. 
 
