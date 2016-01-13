@@ -10,24 +10,24 @@ TRENDCOLOUR2="#008000"
 rrdtool graph $DESTPATH/mhour.png --start -6h \
 DEF:intemp=$RRDPATH/koszeg_temp.rrd:in_temp:AVERAGE \
 DEF:outtemp=$RRDPATH/koszeg_temp.rrd:out_temp:AVERAGE \
-CDEF:intrend=intemp,1800,TREND \
-CDEF:outtrend=outtemp,1800,TREND \
+CDEF:intrend=intemp,7200,TREND \
+CDEF:outtrend=outtemp,7200,TREND \
 LINE2:intemp$RAWCOLOUR1:"Inside temperature" \
-LINE1:intrend$TRENDCOLOUR1:"30 min trend" \
+LINE1:intrend$TRENDCOLOUR1:"7200 sec trend" \
 LINE2:outtemp$RAWCOLOUR2:"Outside temperature" \
-LINE1:outtrend$TRENDCOLOUR2:"30 min trend" \
+LINE1:outtrend$TRENDCOLOUR2:"7200 sec trend" \
 -y 1:2 -X 1 --lower-limit -10 --title Hour
 
 #day
 rrdtool graph $DESTPATH/mday.png --start -1d \
 DEF:intemp=$RRDPATH/koszeg_temp.rrd:in_temp:AVERAGE \
 DEF:outtemp=$RRDPATH/koszeg_temp.rrd:out_temp:AVERAGE \
-CDEF:intrend=intemp,3600,TREND \
-CDEF:outtrend=outtemp,3600,TREND \
+CDEF:intrend=intemp,7200,TREND \
+CDEF:outtrend=outtemp,7200,TREND \
 LINE2:intemp$RAWCOLOUR1:"Inside temperature" \
-LINE1:intrend$TRENDCOLOUR1:"1h trend" \
+LINE1:intrend$TRENDCOLOUR1:"7200 sec trend" \
 LINE2:outtemp$RAWCOLOUR2:"Outside temperature" \
-LINE1:outtrend$TRENDCOLOUR2:"1h trend" \
+LINE1:outtrend$TRENDCOLOUR2:"7200 sec trend" \
 --title Day
 
 #week
