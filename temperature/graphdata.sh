@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# This is based on David Mills work you can find at https://github.com/g7uvw/rPI-multiDS18x20
+# You can get the latest version of this file from https://github.com/maronai/cubieboard
+
+
 RRDPATH="/home/hawai/cubieboard/temperature"
 DESTPATH="/var/www/html"
 RAWCOLOUR1="#FF0000"

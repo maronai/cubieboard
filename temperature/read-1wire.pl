@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+# This is based on David Mills work you can find at https://github.com/g7uvw/rPI-multiDS18x20
+# You can get the latest version of this file from https://github.com/maronai/cubieboard
+
 use strict;
 use warnings;
 use DateTime;
