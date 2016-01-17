@@ -5,12 +5,13 @@
 
 use strict;
 use warnings;
-use DateTime;
- 
+#use DateTime;
+use POSIX (); 
+
 #&check_modules;
 &get_device_IDs;
 
-my $dt = DateTime->now;
+my $dt = POSIX::strftime "%F %T", localtime $^T;
 my $in_correction = 0;
 my $out_correction = 0;
 my $count = 0; 
@@ -47,20 +48,29 @@ print "Outside temperature = $temp_readings[0]\n";
 print "Inside temperature = $temp_readings[1]\n";   
 print $dt;
 print "\n";
+#my $tz = DateTime::TimeZone->new(name => 'local');
+#my $tz = DateTime::TimeZone->new(name => 'Europe/Budapest');
+#print $tz;
+#print my $offset = $tz->offset_for_datetime($dt);
+#print "\n";
+#($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+#my $now = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $year+1900, $mon+1, $mday, $hour, $min, $sec);
+#print strftime "%F %T", localtime $^T;
+
 
 #create index.html
- open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
- print $fh "<html><body>\n";
- print $fh "Latest measurement at ";
- print $fh $dt;
- print $fh "<br>Outside temperature = $temp_readings[0] <br>Inside temperature = $temp_readings[1]\n";
- print $fh "<p><img src=\"./mhour.png\">\n";
- print $fh "<img src=\"./mday.png\">\n";
- print $fh "<br><img src=\"./mweek.png\">\n";
- print $fh "<img src=\"./mmonth.png\">\n";
- print $fh "<br><img src=\"./myear.png\">\n";
- print $fh "</body></html>\n";
- close $fh;
+open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
+print $fh "<html><body>\n";
+print $fh "Latest measurement at ";
+print $fh $dt;
+print $fh "<br>Outside temperature = $temp_readings[0] <br>Inside temperature = $temp_readings[1]\n";
+print $fh "<p><img src=\"./mhour.png\">\n";
+print $fh "<img src=\"./mday.png\">\n";
+print $fh "<br><img src=\"./mweek.png\">\n";
+print $fh "<img src=\"./mmonth.png\">\n";
+print $fh "<br><img src=\"./myear.png\">\n";
+print $fh "</body></html>\n";
+close $fh;
  
 sub check_modules {
   my $mods = `cat /proc/modules`; 
