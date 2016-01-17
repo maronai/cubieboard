@@ -15,7 +15,7 @@ And finally the /temperature folder contains the scripts that makes the whole th
 
 /temperature/koszeg_temp.rrd is an rrd database I use.
 
-/temperature/read-1wire.pl is a perl script that reads the sensors, stores the data in the rrd database and creates the index.html file so that measurements can be accessed from the web.
+/temperature/read-1wire.pl is a perl script that reads the sensors, stores the data in the rrd database and creates the index.html file so that measurements can be accessed from the web. If you run it with paramter 1 it will write the measured data to the rrd database. If you run with parameter 0, then you can test the scrupt without touching the database.
 
 /temperature/rrd-new is a script that creates the rrd database.
 
