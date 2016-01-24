@@ -41,6 +41,7 @@ if ($temp_readings[1] ne 'U') {
 if ($ARGV[0]==1) {
   #running rrdtool if first paramter is 1
   `/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[1]:$temp_readings[0]`;
+  `/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$temp_readings[1]:$temp_readings[0]`;
   print "running rrdtool \n"
 }
 #print ($ARGV[0]);
