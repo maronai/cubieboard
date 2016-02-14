@@ -5,15 +5,12 @@
 
 use strict;
 use warnings;
-#use DateTime;
 use POSIX (); 
 
 #&check_modules;
 &get_device_IDs;
 
 my $dt = POSIX::strftime "%F %T", localtime $^T;
-my $in_correction = 0;
-my $out_correction = 0;
 my $count = 0; 
 my $reading = -1; 
 my $device = -1; 
@@ -21,6 +18,14 @@ my $filename = "/var/www/html/index.html";
 
 my @deviceIDs; 
 my @temp_readings;  
+my @temp_corrections;
+my @temp_locations;
+
+$temp_corrections[0] = 0; #koszeg outside temperature
+$temp_corrections[1] = 0; #koszeg inside temperature
+
+$temp_locations[0] = "Outside";
+$temp_locations[1] = "Inside";
 
 foreach $device (@deviceIDs) {
    $reading = &read_device($device);
@@ -30,12 +35,14 @@ foreach $device (@deviceIDs) {
    push(@temp_readings,$reading);
 }
 
-if ($temp_readings[0] ne 'U') {
-  $temp_readings[0] -= $in_correction;
+my $i=0;
+
+foreach $reading (@temp_readings) {
+  if ($reading ne 'U') {
+    $reading -= $temp_corrections[$i];
+  } 
+  $i++;
 }
-if ($temp_readings[1] ne 'U') {
-  $temp_readings[1] -= $out_correction;
-} 
 
 #update the database 
 if ($ARGV[0]==1) {
@@ -44,27 +51,30 @@ if ($ARGV[0]==1) {
   `/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$temp_readings[1]:$temp_readings[0]`;
   print "running rrdtool \n"
 }
+
 #print ($ARGV[0]);
-print "Outside temperature = $temp_readings[0]\n";
-print "Inside temperature = $temp_readings[1]\n";   
+
+#Print info to the console
+$i=0;
+foreach $reading (@temp_readings) {
+  print "$temp_locations[$i] temperature = $temp_readings[$i]\n";
+  $i++;
+}
+
 print $dt;
 print "\n";
-#my $tz = DateTime::TimeZone->new(name => 'local');
-#my $tz = DateTime::TimeZone->new(name => 'Europe/Budapest');
-#print $tz;
-#print my $offset = $tz->offset_for_datetime($dt);
-#print "\n";
-#($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-#my $now = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $year+1900, $mon+1, $mday, $hour, $min, $sec);
-#print strftime "%F %T", localtime $^T;
 
-
-#create index.html
+#Print info to the index.html file
 open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
 print $fh "<html><body>\n";
 print $fh "Latest measurement at ";
 print $fh $dt;
-print $fh "<br>Outside temperature = $temp_readings[0] <br>Inside temperature = $temp_readings[1]\n";
+print $fh "<br>";
+$i = 0;
+foreach $reading (@temp_readings) {
+  print $fh "<br>$temp_locations[$i] temperature = $temp_readings[$i]\n";
+  $i++;
+}
 print $fh "<p><img src=\"./mhour.png\">\n";
 print $fh "<img src=\"./mday.png\">\n";
 print $fh "<br><img src=\"./mweek.png\">\n";
