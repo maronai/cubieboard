@@ -10,8 +10,8 @@ RAWCOLOUR1="#FF0000"
 TRENDCOLOUR1="#800000"
 RAWCOLOUR2="#00FF00"
 TRENDCOLOUR2="#008000"
-RRDFILE="nandorf_temp.rrd"
-RRDFILE10="nandorf_temp-10years.rrd"
+RRDFILE="koszeg_temp.rrd"
+RRDFILE10="koszeg_temp-10years.rrd"
 
 #hour
 rrdtool graph $DESTPATH/mhour.png --start -6h \
@@ -19,7 +19,7 @@ DEF:intemp=$RRDPATH/$RRDFILE:in_temp:AVERAGE \
 DEF:outtemp=$RRDPATH/$RRDFILE10:out_temp:AVERAGE \
 CDEF:intrend=intemp,7200,TREND \
 CDEF:outtrend=outtemp,7200,TREND \
-LINE2:intemp$RAWCOLOUR1:"Tarolo temperature" \
+LINE2:intemp$RAWCOLOUR1:"Inside temperature" \
 LINE1:intrend$TRENDCOLOUR1:"7200 sec trend" \
 LINE2:outtemp$RAWCOLOUR2:"Outside temperature" \
 LINE1:outtrend$TRENDCOLOUR2:"7200 sec trend" \
