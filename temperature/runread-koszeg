@@ -1,0 +1,4 @@
+# You can get the latest version of this file from https://github.com/maronai/cubieboard
+
+./read-1wire-koszeg.pl 1
+./graphdata-koszeg.sh
