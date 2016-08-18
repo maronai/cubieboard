@@ -17,15 +17,30 @@ my $device = -1;
 my $filename = "/var/www/html/index.html";
 
 my @deviceIDs; 
+my @allData;
 my @temp_readings;  
 my @temp_corrections;
 my @temp_locations;
 
+my %sensor_temperature;
+my %sensor_correction;
+my %sensor_location;
+
+$sensor_correction{'28-000004bf5892'} = 0;  #koszeg outside temperature
+$sensor_correction{'28-000004cd5159'} = 0;  #koszeg living room temperature
+$sensor_correction{'28-000004d0b512'} = 0;  #koszeg dining room temperature
+
+$sensor_location{'28-000004bf5892'} = "Outside";  #koszeg outside temperature
+$sensor_location{'28-000004cd5159'} = "Living room";  #koszeg living room temperature
+$sensor_location{'28-000004d0b512'} = "Dining roon";  #koszeg dining room temperature
+
 $temp_corrections[0] = 0; #koszeg outside temperature
-$temp_corrections[1] = 0; #koszeg inside temperature
+$temp_corrections[1] = 0; #koszeg living room temperature
+$temp_corrections[2] = 0; #koszeg dining room temperature
 
 $temp_locations[0] = "Outside";
-$temp_locations[1] = "Inside";
+$temp_locations[1] = "Living room";
+$temp_locations[2] = "Dining room";
 
 foreach $device (@deviceIDs) {
    $reading = &read_device($device);
@@ -47,8 +62,8 @@ foreach $reading (@temp_readings) {
 #update the database 
 if ($ARGV[0]==1) {
   #running rrdtool if first paramter is 1
-  `/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[0]:$temp_readings[1]`;
-  `/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$temp_readings[0]:$temp_readings[1]`;
+  `/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[1]:$temp_readings[0]`;
+  `/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$temp_readings[1]:$temp_readings[0]`;
   print "running rrdtool \n"
 }
 
@@ -61,8 +76,23 @@ foreach $reading (@temp_readings) {
   $i++;
 }
 
+my $href;
+my $role;
+for $href ( @allData ) {
+  print "{ ";
+  for $role ( keys %$href ) {
+    print "$role  =  $href->{$role} ";
+  }
+  print "}\n";
+}
 print $dt;
 print "\n";
+
+foreach $device (@deviceIDs) {
+   $device =~ s/\R//g; 
+   print "DeviceID = $device\t Temperature = $sensor_temperature{$device}\t Location=$sensor_location{$device}\t Correction = $sensor_correction{$device}\n";
+}
+
 
 #Print info to the index.html file
 open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
@@ -113,7 +143,7 @@ sub read_device {
 
   my $ret = 9999; # default to return 9999 (fail)  
   my $sensordata = `cat /sys/bus/w1/devices/${deviceID}/w1_slave 2>&1`; 
-  print "Read: $sensordata"; 
+  print "Device ID: $deviceID Read: $sensordata"; 
 
   if(index($sensordata, 'YES') != -1) { #fix for negative temps from http://habrahabr.ru/post/163575/ 
     $sensordata =~ /t=(\D*\d+)/i; 
@@ -123,5 +153,7 @@ sub read_device {
   } else {
     print ("CRC Invalid for device $deviceID.\n"); 
   }  
+  push @allData,{"deviceID", $deviceID, "temperature", $ret, "correction", 0, "location" , 0};
+  $sensor_temperature{$deviceID}=$ret;
   return ($ret); 
 }
