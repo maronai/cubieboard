@@ -17,7 +17,6 @@ my $device = -1;
 my $filename = "/var/www/html/index.html";
 
 my @deviceIDs; 
-my @allData;
 my @temp_readings;  
 my @temp_corrections;
 my @temp_locations;
@@ -25,6 +24,7 @@ my @temp_locations;
 my %sensor_temperature;
 my %sensor_correction;
 my %sensor_location;
+my @allData;
 
 $sensor_correction{'28-000004bf5892'} = 0;  #koszeg outside temperature
 $sensor_correction{'28-000004cd5159'} = 0;  #koszeg living room temperature
@@ -76,23 +76,10 @@ foreach $reading (@temp_readings) {
   $i++;
 }
 
-my $href;
-my $role;
-for $href ( @allData ) {
-  print "{ ";
-  for $role ( keys %$href ) {
-    print "$role  =  $href->{$role} ";
-  }
-  print "}\n";
-}
-print $dt;
-print "\n";
-
 foreach $device (@deviceIDs) {
    $device =~ s/\R//g; 
    print "DeviceID = $device\t Temperature = $sensor_temperature{$device}\t Location=$sensor_location{$device}\t Correction = $sensor_correction{$device}\n";
 }
-
 
 #Print info to the index.html file
 open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
@@ -153,7 +140,6 @@ sub read_device {
   } else {
     print ("CRC Invalid for device $deviceID.\n"); 
   }  
-  push @allData,{"deviceID", $deviceID, "temperature", $ret, "correction", 0, "location" , 0};
   $sensor_temperature{$deviceID}=$ret;
   return ($ret); 
 }
