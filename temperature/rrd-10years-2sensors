@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# This is based on David Mills work you can find at https://github.com/g7uvw/rPI-multiDS18x20
+# You can get the latest version of this file from https://github.com/maronai/cubieboard
+
+rrdtool create koszeg_temp-10years-2sensor.rrd --step 600 DS:in_temp:GAUGE:1200:-30:50 DS:out_temp:GAUGE:1200:-30:50 RRA:AVERAGE:0.5:1:525600 RRA:AVERAGE:0.5:1:6 RRA:AVERAGE:0.5:1:144 RRA:AVERAGE:0.5:6:168 RRA:AVERAGE:0.5:6:720 RRA:AVERAGE:0.5:144:365
