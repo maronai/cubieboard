@@ -63,15 +63,16 @@ foreach $reading (@temp_readings) {
 if ($ARGV[0]==1) {
   #running rrdtool if first paramter is 1
   `/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[1]:$temp_readings[0]`;
-  #`/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$sensor_temperature{'28-000004bf5892'}:$sensor_temperature{'28-000004bf5892'}:$sensor_temperature{'28-000004bf5892'}`;
+  #`/usr/bin/rrdtool update koszeg_temp-10years-3sensors.rrd N:$sensor_temperature{'28-000004bf5892'}:$sensor_temperature{'28-000004cd5159'}:$sensor_temperature{'28-000004d0b512'}`;
   `/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$temp_readings[1]:$temp_readings[0]`;
+}
 if ($ARGV[0]==2) {
   #running rrdtool if first paramter is 2
-  `/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[1]:$temp_readings[0]`;
-  #`/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$sensor_temperature{'28-000004bf5892'}:$sensor_temperature{'28-000004bf5892'}:$sensor_temperature{'28-000004bf5892'}`;
-  `/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$temp_readings[1]:$temp_readings[0]`;
-  print "running rrdtool $temp_readings[1]:$temp_readings[0]\n"
+  #`/usr/bin/rrdtool update koszeg_temp.rrd N:$temp_readings[1]:$temp_readings[0]`;
+  `/usr/bin/rrdtool update koszeg_temp-10years-3sensors.rrd N:$sensor_temperature{'28-000004bf5892'}:$sensor_temperature{'28-000004cd5159'}:$sensor_temperature{'28-000004d0b512'}`;
+  #`/usr/bin/rrdtool update koszeg_temp-10years.rrd N:$temp_readings[1]:$temp_readings[0]`;
 }
+  print "\nRunning RRDtool par=$ARGV[0] $sensor_temperature{'28-000004bf5892'}  $sensor_temperature{'28-000004cd5159'}  $sensor_temperature{'28-000004d0b512'}\n\n";
 
 #print ($ARGV[0]);
 
@@ -98,17 +99,15 @@ foreach $reading (@temp_readings) {
   print $fh "<br>$temp_locations[$i] temperature = $temp_readings[$i]\n";
   $i++;
 }
-print $fh "<p><img src=\"./mhour.png\">\n";
-print $fh "<img src=\"./mday.png\">\n";
-print $fh "<br><img src=\"./mweek.png\">\n";
-print $fh "<img src=\"./mmonth.png\">\n";
-print $fh "<br><img src=\"./myear.png\">\n";
-print $fh "<p><img src=\"./mhour10_3.png\">\n";
-print $fh "<img src=\"./mday10_3.png\">\n";
-print $fh "<br><img src=\"./mweek10_3.png\">\n";
-print $fh "<img src=\"./mmonth10_3.png\">\n";
-print $fh "<br><img src=\"./myear10_3.png\">\n";
-pprint $fh "</body></html>\n";
+print $fh "<p><img src=\"./mday.png\">\n";
+print $fh "<img src=\"./mweek.png\">\n";
+print $fh "<br><img src=\"./mmonth.png\">\n";
+print $fh "<img src=\"./myear.png\">\n";
+print $fh "<p><img src=\"./mday10_3.png\">\n";
+print $fh "<img src=\"./mweek10_3.png\">\n";
+print $fh "<br><img src=\"./mmonth10_3.png\">\n";
+print $fh "<img src=\"./myear10_3.png\">\n";
+print $fh "</body></html>\n";
 close $fh;
  
 sub check_modules {
@@ -151,6 +150,6 @@ sub read_device {
   } else {
     print ("CRC Invalid for device $deviceID.\n"); 
   }  
-  $sensor_temperature{$deviceID}=$ret;
+  $sensor_temperature{$deviceID}=$ret+$sensor_correction{$deviceID};
   return ($ret); 
 }

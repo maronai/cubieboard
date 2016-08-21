@@ -1,4 +1,4 @@
 # You can get the latest version of this file from https://github.com/maronai/cubieboard
 
-./read-1wire-koszeg-3sensors.pl 1
+./read-1wire-koszeg-3sensors.pl 2
 ./graphdata-koszeg.sh

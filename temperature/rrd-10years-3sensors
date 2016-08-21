@@ -5,9 +5,9 @@
 
 rrdtool create koszeg_temp-10years-3sensors.rrd \
 	--step 300 \
+	DS:outside_temp:GAUGE:600:-30:50 \
 	DS:living_room_temp:GAUGE:600:-30:50 \
-	DS:outside_temp:GAUGE:1200:-30:50 \
-	DS:dining_room_temp:GAUGE:1200:-30:50 \
+	DS:dining_room_temp:GAUGE:600:-30:50 \
 	RRA:AVERAGE:0.5:1:1051200 \
 	RRA:AVERAGE:0.5:1:12 \
 	RRA:AVERAGE:0.5:1:288 \
@@ -25,3 +25,4 @@ rrdtool create koszeg_temp-10years-3sensors.rrd \
 #weekly store, taking 6*5min=30min average into account: 1week = 168h = 336 half_an_hour
 #monthly store, 30days*48 half_an_hour 
 #yearly store, taking daily averages
+

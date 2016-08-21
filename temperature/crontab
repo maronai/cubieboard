@@ -15,5 +15,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
 47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
 52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
-0,10,20,30,40,50 *     * * *   root    cd ~hawai/cubieboard/temperature && ./runread
+0,10,20,30,40,50 *     * * *   root    cd ~hawai/cubieboard/temperature && ./runread-koszeg
+0,5,10,15,20,25,30,35,40,45,50,55 *     * * *   root    cd ~hawai/cubieboard/temperature && ./runread-koszeg-3sensors
 #
