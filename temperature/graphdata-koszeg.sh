@@ -23,24 +23,16 @@ RRDFILE10_3="koszeg_temp-10years-3sensors.rrd"
 rrdtool graph $DESTPATH/mhour.png --start -6h \
 DEF:intemp=$RRDPATH/$RRDFILE:in_temp:AVERAGE \
 DEF:outtemp=$RRDPATH/$RRDFILE:out_temp:AVERAGE \
-CDEF:intrend=intemp,7200,TREND \
-CDEF:outtrend=outtemp,7200,TREND \
 LINE2:intemp$RAWCOLOUR1:"Inside temperature" \
-LINE1:intrend$TRENDCOLOUR1:"7200 sec trend" \
 LINE2:outtemp$RAWCOLOUR2:"Outside temperature" \
-LINE1:outtrend$TRENDCOLOUR2:"7200 sec trend" \
 -y 1:2 -X 1 --lower-limit -10 --title "6 Hours"
 
 #day
 rrdtool graph $DESTPATH/mday.png --start -1d \
 DEF:intemp=$RRDPATH/$RRDFILE:in_temp:AVERAGE \
 DEF:outtemp=$RRDPATH/$RRDFILE:out_temp:AVERAGE \
-CDEF:intrend=intemp,7200,TREND \
-CDEF:outtrend=outtemp,7200,TREND \
 LINE2:intemp$RAWCOLOUR1:"Inside temperature" \
-LINE1:intrend$TRENDCOLOUR1:"7200 sec trend" \
 LINE2:outtemp$RAWCOLOUR2:"Outside temperature" \
-LINE1:outtrend$TRENDCOLOUR2:"7200 sec trend" \
 --title Day
 
 #week
